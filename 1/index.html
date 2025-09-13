@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 1</title>
+    <style>
+        body {
+            font-family: Times, serif;
+            margin: 20px;
+            background-color: #fcf2d4;
+        }
+        h4, h5, h6 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project 1</h1>
+    <!-- <h3>Part 1: Selfie: The Wrong Way vs. The Right Way</h3>
+    <img src="./media/part1.jpg" alt="selfies" style="height:150px;">
+    <h4>close / low zoom → far / high zoom</h4>
+    <h3>Part 2: Architectural Perspective Compression</h3>
+    <img src="./media/part2.jpg" alt="street photos" style="height:150px;">
+    <h4>far / high zoom → close / low zoom</h4>
+    <h3>Part 3: The Dolly Zoom</h3>
+    <img src="./media/part3.gif" alt="dolly zoom of squirrel" style="height:150px;"> -->
+
+    <!-- slideshow from https://community.canvaslms.com/t5/Canvas-LMS-Blog/Easy-Slideshow-or-Gallery-in-HTML/ba-p/269461 -->
+    <!-- Setup the Container and Title -->
+    <div class="img-rounded" style="overflow-y: scroll; height: 390px; width: 447px; float: right; background-color: rgb(136, 0, 0); border: 0px solid black; margin: 10px;">
+    <h4 style="color: #000; background-color: #f7f7f7; text-align: center; margin: 0px; padding: 0px;">Slideshow Title</h4>
+    <div id="cc-homepage-announcements" style="height: 357px; overflow-x: hidden; overflow-y: auto; padding: 1px; text-align: center;">
+    <!-- Time to Add Slides. If you need more slides, copy and paste a section, but make sure you increment the div id and the href ids for the buttons-->
+    <!--Slide 1 -->
+        <div id="img1">
+        <img src="./media/cathedral.jpg" width="425px" alt="cathedral" />
+        <!--Previous Button -->
+        <div class="btn btn-primary"><a style="color: #fff" href="#img14">Previous</a></div>
+        <!--Next Button -->
+        <div class="btn btn-primary"><a style="color: #fff" href="#img2">Next</a></div>
+        </div>
+    <!--Slide 2 -->
+        <div id="img2">
+        <img src="./media/church.jpg" width="425px" alt="church" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img1">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img3">Next</a></div>
+        </div>
+    <!--Slide 3 -->
+        <div id="img3">
+        <img src="./media/emir.jpg" width="425px" alt="emir" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img2">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img4">Next</a></div>    
+        </div>
+    <!--Slide 4 -->
+        <div id="img4">
+        <img src="./media/harvesters.jpg" width="425px" alt="harvesters" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img3">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img5">Next</a></div>    
+        </div>
+    <!--Slide 5 -->
+        <div id="img5">
+        <img src="./media/icon.jpg" width="425px" alt="icon" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img4">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img6">Next</a></div>    
+        </div>
+    <!--Slide 6 -->
+        <div id="img6">
+        <img src="./media/italil.jpg" width="425px" alt="italil" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img5">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img7">Next</a></div>    
+        </div>
+    <!--Slide 7 -->
+        <div id="img7">
+        <img src="./media/lastochikino.jpg" width="425px" alt="lastochikino" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img6">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img8">Next</a></div>    
+        </div>
+    <!--Slide 8 -->
+        <div id="img8">
+        <img src="./media/lugano.jpg" width="425px" alt="lugano" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img7">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img9">Next</a></div>    
+        </div>
+    <!--Slide 9 -->
+        <div id="img9">
+        <img src="./media/melons.jpg" width="425px" alt="melons" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img8">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img9">Next</a></div>    
+        </div>
+    <!--Slide 10 -->
+        <div id="img10">
+        <img src="./media/monastery.jpg" width="425px" alt="monastery" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img9">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img11">Next</a></div>    
+        </div>
+    <!--Slide 11 -->
+        <div id="img11">
+        <img src="./media/self_portrait.jpg" width="425px" alt="self_portrait" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img10">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img12">Next</a></div>    
+        </div>
+    <!--Slide 12 -->
+        <div id="img12">
+        <img src="./media/siren.jpg" width="425px" alt="siren" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img11">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img13">Next</a></div>    
+        </div>
+    <!--Slide 13 -->
+        <div id="img13">
+        <img src="./media/three_generations.jpg" width="425px" alt="three_generations" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img12">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img14">Next</a></div>    
+        </div>
+    <!--Slide 14 -->
+        <div id="img14">
+        <img src="./media/tobolsk.jpg" width="425px" alt="tobolsk" />
+        <div class="btn btn-primary"><a style="color: #fff" href="#img13">Previous</a></div>
+        <div class="btn btn-primary"><a style="color: #fff" href="#img1">Next</a></div>    
+        </div>
+    <!-- Close those Divs -->
+    </div>
+    </div>
+    <!-- End Slideshow -->
+</body>
+</html>
