@@ -15,146 +15,160 @@
 </head>
 <body>
     <h1>Project 1</h1>
-    <h4><i>The photos in this section are fails! The aligned photos are at the <a href="#slideshow">bottom</a>.</i><br>
-        My first step was to get the skeleton code running and take a 24 
-        hour break. This is what cathedral looked like at first.
+    <h4><i>Some of these photos are fails! The single-scale aligned photos (JPGs only) are 
+        <a href="#single">here</a>. The complete set of multi-scale pyramid aligned photos are at the 
+        <a href="#multi">bottom</a>.</i>
     </h4>
-    <img src="./media/cathedral1.jpg" alt="cathedral1" style="height:250px;">
-    <h4>My initial implementation of window search made things worse because I 
-        forgot to track improvements, so I always ended up shifting by [15, 15] :D
+
+    <h3>Single-scale alignment</h3>
+    <h4>My first step was to get the skeleton code running and promptly take a 24 
+        hour break. The cathedral on the left is the very first version and has no alignment. I 
+        then implemented window search based on the project spec: align(base, other) returns the 
+        best offset in the range [-15, 15] from shifting 'other' over 'base'. Since my implementation 
+        only compares the overlapping area, I defined my metric as the squared L2 norm (aka 
+        Euclidean distance) divided by the number of overlapping pixels. Based on the raw image 
+        dimensions, I went with cropping 50 pixels off each edge (to ensure the image contents, not 
+        the borders, were being matched). After implementing all this, I did a test run and realized 
+        that I completely forgot to track improvements, so I always ended up shifting by [15, 15]. 
+        That's where the cathedral on the right comes from :D
     </h4>
-    <img src="./media/cathedral2.jpg" alt="cathedral2" style="height:250px;">
-    <h4>Finally I got window search to work!!! This yielded good results on the 
-        other JPGs, but not the TIFs. I then implemented a faulty image pyramid, where I took the shifts from the 
-        smallest version of the image, and directly applied it to the original image. 
-        There was basically no improvement...
+    <img src="./media/cathedral1.jpg" alt="cathedral1" style="height:225px;">
+    <img src="./media/cathedral2.jpg" alt="cathedral2" style="height:225px;">
+    
+    <div id="single">
+    <h4>After fixing this small issue, single-scale alignment was yielding good results on the 
+        JPGs (shown below), but not the TIFs. 
     </h4>
-    <img src="./media/church1.jpg" alt="church1" style="height:250px;">
-    <h4>Doing adjustments at each scale of the image resolved this issue, but there were still 
-        a few blurry images that I had to troubleshoot individually. I expanded the 
-        search window to [-30, 30] to fix melons, for example. 
+    <img src="./media/cathedral.jpg" alt="cathedral" style="height:225px;">
+    <img src="./media/monastery.jpg" alt="monastery" style="height:225px;">
+    <img src="./media/tobolsk.jpg" alt="tobolsk" style="height:225px;">
+    </div>
+
+    <h3>Multi-scale pyramid alignment</h3>
+    <h4>My first attempt at image pyramid was faulty: being a genius, I took the shifts 
+        from the smallest version of the image, and directly applied them to the original image. 
+        As you can see in the church on the left, it didn't help... So I turned 'align' into a 
+        recursive function that downsamples the image by half until it's at most 500 pixels 
+        in height. At that size, it window searches over [-15, 15]. As it returns up the call 
+        stack, the offset gets adjusted: 1) it needs to be doubled as the dimensions are doubled, and
+        2) we search a small window [-1, 1] around it to make use of the higher resolution. The 
+        church on the right is the result of this fix. 
     </h4>
-    <img src="./media/melons1.jpg" alt="melons1" style="height:250px;">
+    <img src="./media/church1.jpg" alt="church1" style="height:225px;">
+    <img src="./media/church.jpg" alt="church" style="height:225px;">
+
+    <h4>Doing adjustments at each scale of the image worked for most images, but some were still 
+        blurry, and I had to troubleshoot them individually. I expanded the search window to [-30, 30] 
+        to fix melons, for example. 
+    </h4>
+    <img src="./media/melons1.jpg" alt="melons1" style="height:225px;">
+    <img src="./media/melons.jpg" alt="melons" style="height:225px;">
+
     <h4>I also noticed that I wasn't cropping the edges of the TIF images enough. 
         Increasing the border size from 50 (JPG) to 300 (TIF) worked. 
     </h4>
-    <img src="./media/lastochikino1.jpg" alt="lastochikino1" style="height:250px;">
-    <h4>However, emir got blurrier when I cropped more, so emir is the only TIF image that 
-        I still crop by 50. 
+    <img src="./media/lastochikino1.jpg" alt="lastochikino1" style="height:225px;">
+    <img src="./media/lastochikino.jpg" alt="lastochikino" style="height:225px;">
+
+    <h4>However, emir got blurrier the more I cropped, so emir is the only TIF image that 
+        I still crop by 50. Due to certain disparities in the different color channels, emir 
+        still isn't aligned perfectly...
     </h4>
-    <img src="./media/emir1.jpg" alt="emir1" style="height:250px;">
-    <h4>And now the final results :P
-    </h4> <br>
-    
-    <h3>Aligned images</h3>
-    <!-- slideshow from https://community.canvaslms.com/t5/Canvas-LMS-Blog/Easy-Slideshow-or-Gallery-in-HTML/ba-p/269461 -->
-    <!-- Setup the Container and Title -->
-    <div id="slideshow">
-    <div style="height: 500px; width: 500px; overflow-x: hidden; overflow-y: auto; padding: 0px; float: left; text-align: center;">
-    <!-- Time to Add Slides. If you need more slides, copy and paste a section, but make sure you increment the div id and the href ids for the buttons-->
-    <!--Slide 1 -->
+    <img src="./media/emir1.jpg" alt="emir1" style="height:225px;">
+    <img src="./media/emir.jpg" alt="emir" style="height:225px;">
+
+    <div id="multi">
+    <h4>And now the multi-scale pyramid aligned results :P</h4>
+    <div style="float: left; padding-right: 0px; padding-right: 10px; text-align: center;">
         <div id="img1">
-        <img src="./media/cathedral.jpg" width="500px" alt="cathedral" />
-        <h4>cathedral | red: (12, 3) | green: (5, 2)</h4>
+            <img src="./media/cathedral.jpg" height="200px" width="225px" alt="cathedral" />
+            <h6>cathedral | red: (12, 3) | green: (5, 2)</h6>
         </div>
-    <!--Slide 2 -->
-        <div id="img2">
-        <img src="./media/church.jpg" width="500px" alt="church" />
-        <h4>church | red: (59, -4) | green: (25, 4)</h4>
-        </div>
-    <!--Slide 3 -->
-        <div id="img3">
-        <img src="./media/emir.jpg" width="500px" alt="emir" />
-        <h4>emir | red: (103, 17) | green: (47, 9) </h4>
-        </div>
-    <!--Slide 4 -->
-        <div id="img4">
-        <img src="./media/harvesters.jpg" width="500px" alt="harvesters" />
-        <h4>harvesters | red: (124, 13) | green: (59, 16) </h4>
-        </div>
-    <!--Slide 5 -->
-        <div id="img5">
-        <img src="./media/icon.jpg" width="500px" alt="icon" />
-        <h4>icon | red: (90, 23) | green: (41, 17) </h4>
-        </div>
-    <!--Slide 6 -->
         <div id="img6">
-        <img src="./media/italil.jpg" width="500px" alt="italil" />
-        <h4>italil | red: (76, 35) | green: (38, 21) </h4>
+            <img src="./media/italil.jpg" height="200px" width="225px" alt="italil" />
+            <h6>italil | red: (76, 35) | green: (38, 21)</h6>
         </div>
-    <!--Slide 7 -->
-        <div id="img7">
-        <img src="./media/lastochikino.jpg" width="500px" alt="lastochikino" />
-        <h4>lastochikino | red: (75, -9) | green: (-3, -2) </h4>
-        </div>
-    <!--Slide 8 -->
-        <div id="img8">
-        <img src="./media/lugano.jpg" width="500px" alt="lugano" />
-        <h4>lugano | red: (93, -29) | green: (41, -16) </h4>
-        </div>
-    <!--Slide 9 -->
-        <div id="img9">
-        <img src="./media/melons.jpg" width="500px" alt="melons" />
-        <h4>melons | red: (178, 13) | green: (82, 11) </h4>
-        </div>
-    <!--Slide 10 -->
-        <div id="img10">
-        <img src="./media/monastery.jpg" width="500px" alt="monastery" />
-        <h4>monastery | red: (3, 2) | green: (-3, 2)</h4>
-        </div>
-    <!--Slide 11 -->
         <div id="img11">
-        <img src="./media/self_portrait.jpg" width="500px" alt="self_portrait" />
-        <h4>self portrait | red: (176, 37) | green: (79, 29) </h4>
+            <img src="./media/self_portrait.jpg" height="200px" width="225px" alt="self_portrait" />
+            <h6>self portrait | red: (176, 37) | green: (79, 29)</h6>
         </div>
-    <!--Slide 12 -->
-        <div id="img12">
-        <img src="./media/siren.jpg" width="500px" alt="siren" />
-        <h4>siren | red: (96, -25) | green: (49, -6) </h4>
-        </div>
-    <!--Slide 13 -->
-        <div id="img13">
-        <img src="./media/three_generations.jpg" width="500px" alt="three_generations" />
-        <h4>three generations | red: (112, 11) | green: (53, 14) </h4>
-        </div>
-    <!--Slide 14 -->
-        <div id="img14">
-        <img src="./media/tobolsk.jpg" width="500px" alt="tobolsk" />
-        <h4>tobolsk | red: (6, 3) | green: (3, 3) </h4>
-        </div>
-    <!--Slide 15 -->
-        <div id="img15">
-        <img src="./media/camel.jpg" width="500px" alt="camel" />
-        <h4>camel | red: (81, 38) | green: (20, 15) </h4>
-        </div>
-    <!--Slide 16 -->
         <div id="img16">
-        <img src="./media/canal.jpg" width="500px" alt="canal" />
-        <h4>canal | red: (46, 49) | green: (28, 24)</h4>
+            <img src="./media/canal.jpg" height="200px" width="225px" alt="canal" />
+            <h6>canal | red: (46, 49) | green: (28, 24)</h6>
         </div>
-    <!--Slide 17 -->
+    </div>
+    <div style="float: left; padding-right: 0px; padding-right: 10px; text-align: center;">
+        <div id="img2">
+            <img src="./media/church.jpg" height="200px" width="225px" alt="church" />
+            <h6>church | red: (59, -4) | green: (25, 4)</h6>
+        </div>
+        <div id="img7">
+            <img src="./media/lastochikino.jpg" height="200px" width="225px" alt="lastochikino" />
+            <h6>lastochikino | red: (75, -9) | green: (-3, -2)</h6>
+        </div>
+        <div id="img12">
+            <img src="./media/siren.jpg" height="200px" width="225px" alt="siren" />
+            <h6>siren | red: (96, -25) | green: (49, -6)</h6>
+        </div>
         <div id="img17">
-        <img src="./media/capri.jpg" width="500px" alt="capri" />
-        <h4>capri | red: (103, -11) | green: (45, -14) </h4>
+            <img src="./media/capri.jpg" height="200px" width="225px" alt="capri" />
+            <h6>capri | red: (103, -11) | green: (45, -14)</h6>
         </div>
-    <!--Slide 18 -->
+    </div>
+    <div style="float: left; padding-right: 0px; padding-right: 10px; text-align: center;">
+        <div id="img3">
+            <img src="./media/emir.jpg" height="200px" width="225px" alt="emir" />
+            <h6>emir | red: (103, 17) | green: (47, 9)</h6>
+        </div>
+        <div id="img8">
+            <img src="./media/lugano.jpg" height="200px" width="225px" alt="lugano" />
+            <h6>lugano | red: (93, -29) | green: (41, -16)</h6>
+        </div>
+        <div id="img13">
+            <img src="./media/three_generations.jpg" height="200px" width="225px" alt="three_generations" />
+            <h6>three generations | red: (112, 11) | green: (53, 14)</h6>
+        </div>
         <div id="img18">
-        <img src="./media/four_seated.jpg" width="500px" alt="four_seated" />
-        <h4>four seated | red: (90, -41) | green: (47, -13) </h4>
+            <img src="./media/four_seated.jpg" height="200px" width="225px" alt="four_seated" />
+            <h6>four seated | red: (90, -41) | green: (47, -13)</h6>
         </div>
-    <!--Slide 19 -->
+    </div>
+    <div style="float: left; padding-right: 0px; padding-right: 10px; text-align: center;">
+        <div id="img4">
+            <img src="./media/harvesters.jpg" height="200px" width="225px" alt="harvesters" />
+            <h6>harvesters | red: (124, 13) | green: (59, 16)</h6>
+        </div>
+        <div id="img9">
+            <img src="./media/melons.jpg" height="200px" width="225px" alt="melons" />
+            <h6>melons | red: (178, 13) | green: (82, 11)</h6>
+        </div>
+        <div id="img14">
+            <img src="./media/tobolsk.jpg" height="200px" width="225px" alt="tobolsk" />
+            <h6>tobolsk | red: (6, 3) | green: (3, 3)</h6>
+        </div>
         <div id="img19">
-        <img src="./media/milan_cathedral.jpg" width="500px" alt="milan_cathedral" />
-        <h4>milan cathedral | red: (126, 24) | green: (57, 12) </h4>
+            <img src="./media/milan_cathedral.jpg" height="200px" width="225px" alt="milan_cathedral" />
+            <h6>milan cathedral | red: (126, 24) | green: (57, 12)</h6>
         </div>
-    <!--Slide 20 -->
+    </div>
+    <div style="float: left; text-align: center;">
+        <div id="img5">
+            <img src="./media/icon.jpg" height="200px" width="225px" alt="icon" />
+            <h6>icon | red: (90, 23) | green: (41, 17)</h6>
+        </div>
+        <div id="img10">
+            <img src="./media/monastery.jpg" height="200px" width="225px" alt="monastery" />
+            <h6>monastery | red: (3, 2) | green: (-3, 2)</h6>
+        </div>
+        <div id="img15">
+            <img src="./media/camel.jpg" height="200px" width="225px" alt="camel" />
+            <h6>camel | red: (81, 38) | green: (20, 15)</h6>
+        </div>
         <div id="img20">
-        <img src="./media/mill.jpg" width="500px" alt="mill" />
-        <h4>mill | red: (133, 34) | green: (70, 26) </h4>
+            <img src="./media/mill.jpg" height="200px" width="225px" alt="mill" />
+            <h6>mill | red: (133, 34) | green: (70, 26)</h6>
         </div>
-    <!-- Close those Divs -->
     </div>
     </div>
-    <!-- End Slideshow -->
 </body>
 </html>
