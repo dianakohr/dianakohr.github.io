@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 2</title>
+    <style>
+        body {
+            font-family: Times, serif;
+            margin: 20px;
+            background-color: #fcf2d4;
+        }
+        h4, h5, h6 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project 2</h1>
+
+    <h2>Part 1: Fun with Filters</h2>
+    <h3>Part 1.1: Convolutions from Scratch!</h3>
+    <h4>Convolution with 4 for loops:</h4>
+    <pre><code>
+    def convolve_4_loops(im, filter):
+        im_x, im_y = im.shape
+        filter_x, filter_y = filter.shape
+        pad_x, pad_y = (filter_x-1) // 2, (filter_y-1) // 2
+        im = np.pad(im, pad_width=((pad_x, pad_x), (pad_y, pad_y)), 
+                    mode='constant', constant_values=0)
+        
+        convolution = np.empty((im_x, im_y))
+        for i in range(im_x):
+            for j in range(im_y):
+                val = 0
+                for k in range(filter_x):
+                    for h in range(filter_y):
+                        val += im[i+k][j+h] * filter[filter_x-1-k][filter_y-1-h]
+                convolution[i][j] = val
+        return convolution
+    </code></pre>
+    <h4>Convolution with 2 for loops:</h4>
+    <pre><code>
+    def convolve_2_loops(im, filter):
+        im_x, im_y = im.shape
+        filter_x, filter_y = filter.shape
+        pad_x, pad_y = (filter_x-1) // 2, (filter_y-1) // 2
+        im = np.pad(im, pad_width=((pad_x, pad_x), (pad_y, pad_y)), 
+                    mode='constant', constant_values=0)
+        flipped = np.array([row[::-1] for row in filter][::-1])
+        
+        convolution = np.empty((im_x, im_y))
+        for i in range(im_x):
+            for j in range(im_y):
+                convolution[i][j] = np.sum(im[i:i+filter_x, j:j+filter_y] * flipped)
+        return convolution
+    </code></pre>
+
+    <h4>Here's the picture I used to compare different implementations of convolution. 
+        Although they produced the exact same results, scipy was consistently the fastest. 
+        2 loops was faster than 4 loops on the box filter (9x9), but slower on the finite 
+        difference filters (1x3, 3x1). Scipy's implementation also allows a lot of flexibility
+        in terms of padding. Setting mode='same' is the behavior we want, but there are other 
+        options that vary padding size and values. 
+    </h4>
+    <div style="float: left; padding-right: 15px;">
+        <img src="./media/in/frog.jpg" width="185px" alt="frog" />
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/frog_box_4_loops.jpg" width="185px" alt="frog_box_4_loops" />
+        <h6>box filter, 4 loops: 16.300199 seconds</h6>
+        <img src="./media/out/part1/frog_dx_4_loops.jpg" width="185px" alt="frog_dx_4_loops" />
+        <h6>dx filter, 4 loops: 0.921331 seconds</h6>
+        <img src="./media/out/part1/frog_dy_4_loops.jpg" width="185px" alt="frog_dy_4_loops" />
+        <h6>dy filter, 4 loops: 0.983478 seconds</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/frog_box_2_loops.jpg" width="185px" alt="frog_box_2_loops" />
+        <h6>box filter, 2 loops: 1.900843 seconds</h6>
+        <img src="./media/out/part1/frog_dx_2_loops.jpg" width="185px" alt="frog_dx_2_loops" />
+        <h6>dx filter, 2 loops: 1.84066 seconds</h6>
+        <img src="./media/out/part1/frog_dy_2_loops.jpg" width="185px" alt="frog_dy_2_loops" />
+        <h6>dy filter, 2 loops: 2.06747 seconds</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part1/frog_box_scipy.jpg" width="185px" alt="frog_box_scipy" />
+        <h6>box filter, scipy: 0.795131 seconds</h6>
+        <img src="./media/out/part1/frog_dx_scipy.jpg" width="185px" alt="frog_dx_scipy" />
+        <h6>dx filter, scipy: 0.005497 seconds</h6>
+        <img src="./media/out/part1/frog_dy_scipy.jpg" width="185px" alt="frog_dy_scipy" />
+        <h6>dy filter, scipy: 0.007944 seconds</h6>
+    </div>
+    
+    <h3 style="clear: left">Part 1.2: Finite Difference Operator</h3>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/cameraman.png" width="185px" alt="cameraman" />
+        <h6>cameraman</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_dx.jpg" width="185px" alt="cm_dx" />
+        <h6>cameraman dx</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_dy.jpg" width="185px" alt="cm_dy" />
+        <h6>cameraman dy</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_d_grad_mag.jpg" width="185px" alt="cm_d_grad_mag" />
+        <h6>cameraman gradient magnitude</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part1/cm_d_edge.jpg" width="185px" alt="cm_d_edge" />
+        <h6>cameraman edges</h6>
+    </div>
+    <h4 style="clear: left">I started with the threshold as 0.5, which was too high, so barely
+        any edges were detected. So I worked my way down to 0.25, which balanced well between
+        detecting edges and filtering noise. The man and camera came out pretty clear, as well as
+        including bits of the background, and there's not much texture from the grass.</h3>
+    
+    
+    <h3>Part 1.3: Derivative of Gaussian (DoG) Filter</h3>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_g.jpg" width="185px" alt="cm_g" />
+        <h6>smoothed cameraman</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_g_dx.jpg" width="185px" alt="cm_g_dx" />
+        <h6>smoothed cameraman dx</h6>
+        <img src="./media/out/part1/cm_gdx.jpg" width="185px" alt="cm_gdx" />
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_g_dy.jpg" width="185px" alt="cm_g_dy" />
+        <h6>smoothed cameraman dy</h6>
+        <img src="./media/out/part1/cm_gdy.jpg" width="185px" alt="cm_gdy" />
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part1/cm_g_d_grad_mag.jpg" width="185px" alt="cm_g_d_grad_mag" />
+        <h6>smoothed cameraman gradient magnitude</h6>
+        <img src="./media/out/part1/cm_gd_grad_mag.jpg" width="185px" alt="cm_gd_grad_mag" />
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part1/cm_g_d_edge.jpg" width="185px" alt="cm_g_d_edge" />
+        <h6>smoothed cameraman edges</h6>
+        <img src="./media/out/part1/cm_gd_edge.jpg" width="185px" alt="cm_gd_edge" />
+    </div>
+    <h4 style="clear: left"><br>The first row comes from separately applying the Gaussian filter first, while 
+        the second row uses the filters convolved with each other. We see that they produce the same results. 
+        Because of the smoothing, we can decrease the threshold (I settled on 0.1) to capture more edges without
+        having to worry about noise. This yields better edge detection (the outline of the cameraman and camera 
+        are clearer, we can see more of the background buildings, and noise doesn't increase)!
+    </h3>
+
+    <h2>Part 2: Fun with Frequencies!</h2>
+    <h3>Part 2.1: Image "Sharpening"</h3>
+    <h4>Apart from the provided Taj image, I tried sharpening a blurry picture of a panda (the glass was foggy).
+        We start by blurring the image; when we subtract this from the original, we get a high frequency version 
+        that essentially captures details. To sharpen the image, we add the high frequency details to the original.
+    </h4>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/taj.jpg" width="185px" alt="taj" />
+        <h6>taj original</h6>
+        <img src="./media/in/panda.jpg" width="185px" alt="panda" />
+        <h6>panda original</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/taj_g.jpg" width="185px" alt="taj_g" />
+        <h6>taj gaussian</h6>
+        <img src="./media/out/part2/panda_g.jpg" width="185px" alt="panda_g" />
+        <h6>panda gaussian</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/taj_high_freq.jpg" width="185px" alt="taj_high_freq" />
+        <h6>taj high frequency</h6>
+        <img src="./media/out/part2/panda_high_freq.jpg" width="185px" alt="panda_high_freq" />
+        <h6>panda high frequency</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part2/taj_unsharp.jpg" width="185px" alt="taj_unsharp" />
+        <h6>taj unsharp</h6>
+        <img src="./media/out/part2/panda_unsharp.jpg" width="185px" alt="panda_unsharp" />
+        <h6>panda unsharp</h6>
+    </div>
+
+    <h4 style="clear: left">Here are my test images for blurring then sharpening.</h4>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/cat.jpg" width="185px" alt="cat" />
+        <h6>cat original</h6>
+        <img src="./media/in/bagels.jpg" width="185px" alt="bagels" />
+        <h6>bagels original</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/cat_g.jpg" width="185px" alt="cat_g" />
+        <h6>cat blurred</h6>
+        <img src="./media/out/part2/bagels_g.jpg" width="185px" alt="bagels_g" />
+        <h6>bagels blurred</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/cat_unsharp1.jpg" width="185px" alt="cat_unsharp1" />
+        <h6>cat sharpened, α=1</h6>
+        <img src="./media/out/part2/bagels_unsharp1.jpg" width="185px" alt="bagels_unsharp1" />
+        <h6>bagels sharpened, α=1</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/cat_unsharp2.jpg" width="185px" alt="cat_unsharp2" />
+        <h6>cat sharpened, α=2</h6>
+        <img src="./media/out/part2/bagels_unsharp2.jpg" width="185px" alt="bagels_unsharp2" />
+        <h6>bagels sharpened, α=2</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part2/cat_unsharp3.jpg" width="185px" alt="cat_unsharp3" />
+        <h6>cat sharpened, α=3</h6>
+        <img src="./media/out/part2/bagels_unsharp3.jpg" width="185px" alt="bagels_unsharp3" />
+        <h6>bagels sharpened, α=3</h6>
+    </div>
+    <h4 style="clear: left">Although I wasn't able to recapture all the detail in the original image,
+        the sharpened versions are noticeably better than the blurred version. The edges are defined enough, 
+        but the coloring is slightly off, which probably has something to do with how I normalize. Notice 
+        that for larger α values, the image gets sharper (because α corresponds to how much high frequency
+        you're adding), but the color deviates more (becomes more gray). 
+    </h4>
+
+    <h3 style="clear: left">Part 2.2: Hybrid Images</h3>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/derek.jpg" width="185px" alt="derek" />
+        <h6>derek</h6>
+        <img src="./media/in/oski.jpg" width="185px" alt="oski" />
+        <h6>oski</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/nutmeg.jpg" width="185px" alt="nutmeg" />
+        <h6>nutmeg</h6>
+        <img src="./media/in/pancake.jpg" width="185px" alt="pancake" />
+        <h6>pancake</h6>
+    </div>
+    <div style="float: left; padding-right: 60px; text-align: center;">
+        <img src="./media/out/part2/cat_man.jpg" width="185px" alt="cat_man" />
+        <h6>cat man</h6>
+        <img src="./media/out/part2/pancake_oski.jpg" width="185px" alt="pancake_oski" />
+        <h6>pancake oski</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/deer.jpg" width="185px" alt="deer" />
+        <h6>deer</h6>
+        <img src="./media/in/2024.jpg" width="185px" alt="2024" />
+        <h6>paris 2024</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/in/qilin.jpg" width="185px" alt="qilin" />
+        <h6>qilin</h6>
+        <img src="./media/in/2008.jpg" width="185px" alt="2008" />
+        <h6>beijing 2008</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part2/fantastic_deer.jpg" width="185px" alt="fantastic_deer" />
+        <h6>fantastic deer</h6>
+        <img src="./media/out/part2/safp.jpg" width="185px" alt="safp" />
+        <h6>shelly-ann fraser-pryce</h6>
+    </div>
+    
+    <h4 style="clear: left">Here is the full process for pancake Oski, starting with the original images directly above. 
+        Each step has a corresponding FFT. My frequency cutoffs were σ=4 for Oski, and σ=12 for the pancake. I found these 
+        cutoffs made the pancake sharp enough up close, and Oski obvious enough from a distance, without overpowering each other. 
+    </h4>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/oski_aligned.jpg" width="185px" alt="oski_aligned" />
+        <h6>oski aligned</h6>
+        <img src="./media/out/part2/oski_fft.jpg" width="185px" alt="oski_fft" />
+        <h6>oski fft</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/pancake_aligned.jpg" width="185px" alt="pancake_aligned" />
+        <h6>pancake aligned</h6>
+        <img src="./media/out/part2/pancake_fft.jpg" width="185px" alt="pancake_fft" />
+        <h6>pancake fft</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/oski_low_pass.jpg" width="185px" alt="oski_low_pass" />
+        <h6>oski low pass</h6>
+        <img src="./media/out/part2/oski_low_fft.jpg" width="185px" alt="oski_low_fft" />
+        <h6>oski low pass fft</h6>
+    </div>
+    <div style="float: left; padding-right: 15px; text-align: center;">
+        <img src="./media/out/part2/pancake_high_pass.jpg" width="185px" alt="pancake_high_pass" />
+        <h6>pancake high pass</h6>
+        <img src="./media/out/part2/pancake_high_fft.jpg" width="185px" alt="pancake_high_fft" />
+        <h6>pancake high pass fft</h6>
+    </div>
+    <div style="float: left; text-align: center;">
+        <img src="./media/out/part2/pancake_oski_uncropped.jpg" width="185px" alt="pancake_oski_uncropped" />
+        <h6>pancake oski hybrid</h6>
+        <img src="./media/out/part2/hybrid_fft.jpg" width="185px" alt="hybrid_fft" />
+        <h6>pancake oski hybrid fft</h6>
+    </div>
+
+    <h3 style="clear: left">Part 2.3: Gaussian and Laplacian Stacks</h3>
+    <h4>Apple Gaussian stack:</h4>
+    <img src="./media/out/part2/apple_ga_0.jpg" width="185px" alt="apple_ga_0" />
+    <img src="./media/out/part2/apple_ga_1.jpg" width="185px" alt="apple_ga_1" />
+    <img src="./media/out/part2/apple_ga_2.jpg" width="185px" alt="apple_ga_2" />
+    <img src="./media/out/part2/apple_ga_3.jpg" width="185px" alt="apple_ga_3" />
+    <img src="./media/out/part2/apple_ga_4.jpg" width="185px" alt="apple_ga_4" />
+    <h4>Apple Laplacian stack:</h4>
+    <img src="./media/out/part2/apple_la_0.jpg" width="185px" alt="apple_la_0" />
+    <img src="./media/out/part2/apple_la_1.jpg" width="185px" alt="apple_la_1" />
+    <img src="./media/out/part2/apple_la_2.jpg" width="185px" alt="apple_la_2" />
+    <img src="./media/out/part2/apple_la_3.jpg" width="185px" alt="apple_la_3" />
+    <img src="./media/out/part2/apple_la_4.jpg" width="185px" alt="apple_la_4" />
+    <h4>Orange Gaussian stack:</h4>
+    <img src="./media/out/part2/orange_ga_0.jpg" width="185px" alt="orange_ga_0" />
+    <img src="./media/out/part2/orange_ga_1.jpg" width="185px" alt="orange_ga_1" />
+    <img src="./media/out/part2/orange_ga_2.jpg" width="185px" alt="orange_ga_2" />
+    <img src="./media/out/part2/orange_ga_3.jpg" width="185px" alt="orange_ga_3" />
+    <img src="./media/out/part2/orange_ga_4.jpg" width="185px" alt="orange_ga_4" />
+    <h4>Orange Laplacian stack:</h4>
+    <img src="./media/out/part2/orange_la_0.jpg" width="185px" alt="orange_la_0" />
+    <img src="./media/out/part2/orange_la_1.jpg" width="185px" alt="orange_la_1" />
+    <img src="./media/out/part2/orange_la_2.jpg" width="185px" alt="orange_la_2" />
+    <img src="./media/out/part2/orange_la_3.jpg" width="185px" alt="orange_la_3" />
+    <img src="./media/out/part2/orange_la_4.jpg" width="185px" alt="orange_la_4" />
+    
+    <h3 style="clear: left">Part 2.4: Multiresolution Blending (aka the oraple!)</h3>
+    <h4>The oraple:</h4>
+    <img src="./media/out/part2/apple_l_0.jpg" width="185px" alt="apple_l_0" />
+    <img src="./media/out/part2/apple_l_2.jpg" width="185px" alt="apple_l_2" />
+    <img src="./media/out/part2/apple_l_4.jpg" width="185px" alt="apple_l_4" />
+    <img src="./media/out/part2/apple_final.jpg" width="185px" alt="apple_final" />
+    <br>
+    <img src="./media/out/part2/orange_l_0.jpg" width="185px" alt="orange_l_0" />
+    <img src="./media/out/part2/orange_l_2.jpg" width="185px" alt="orange_l_2" />
+    <img src="./media/out/part2/orange_l_4.jpg" width="185px" alt="orange_l_4" />
+    <img src="./media/out/part2/orange_final.jpg" width="185px" alt="orange_final" />
+    <br>
+    <img src="./media/out/part2/oraple_l_0.jpg" width="185px" alt="oraple_l_0" />
+    <img src="./media/out/part2/oraple_l_2.jpg" width="185px" alt="oraple_l_2" />
+    <img src="./media/out/part2/oraple_l_4.jpg" width="185px" alt="oraple_l_4" />
+    <img src="./media/out/part2/oraple_final.jpg" width="185px" alt="oraple_final" />
+
+    <h4>The great river:</h4>
+    <img src="./media/in/river.jpg" width="185px" alt="river" />
+    <img src="./media/in/wall.jpg" width="185px" alt="wall" />
+    <img src="./media/out/part2/great_river_final.jpg" width="185px" alt="great_river_final" />
+
+    <h4>The gopher god:</h4>
+    <img src="./media/in/cloud.jpg" width="185px" alt="cloud" />
+    <img src="./media/in/gopher2.jpg" width="185px" alt="gopher2" />
+    <img src="./media/out/part2/gopher_god_final.jpg" width="185px" alt="gopher_god_final" />
+
+    <h4>And my favorite, the tree gopher:</h4>
+    <img src="./media/out/part2/tree_l_0.jpg" width="185px" alt="tree_l_0" />
+    <img src="./media/out/part2/tree_l_2.jpg" width="185px" alt="tree_l_2" />
+    <img src="./media/out/part2/tree_l_4.jpg" width="185px" alt="tree_l_4" />
+    <img src="./media/out/part2/tree_final.jpg" width="185px" alt="tree_final" />
+    <br>
+    <img src="./media/out/part2/gopher_l_0.jpg" width="185px" alt="gopher_l_0" />
+    <img src="./media/out/part2/gopher_l_2.jpg" width="185px" alt="gopher_l_2" />
+    <img src="./media/out/part2/gopher_l_4.jpg" width="185px" alt="gopher_l_4" />
+    <img src="./media/out/part2/gopher_final.jpg" width="185px" alt="gopher_final" />
+    <br>
+    <img src="./media/out/part2/tree_gopher_l_0.jpg" width="185px" alt="tree_gopher_l_0" />
+    <img src="./media/out/part2/tree_gopher_l_2.jpg" width="185px" alt="tree_gopher_l_2" />
+    <img src="./media/out/part2/tree_gopher_l_4.jpg" width="185px" alt="tree_gopher_l_4" />
+    <img src="./media/out/part2/tree_gopher_final.jpg" width="185px" alt="tree_gopher_final" />
+
+    <h4><strong>Final takeaways:</strong> 
+        This was a very enjoyable (though slightly tedious) project! I learned that manipulating
+        images often has a solid mathematical foundation, which makes it less scary. Also, working with color is tricky, 
+        and it seems like normalization is important to get the color scheme you want. 
+    </h4>
+
+    
+</body>
+</html>
