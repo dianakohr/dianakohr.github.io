@@ -18,68 +18,149 @@
 
     <h2>IMAGE WARPING and MOSAICING</h2>
     <h3>A.1: Shoot the Pictures</h3>
-    <h4>Photos with projective transforms (perspective)</h4>
-    <img src="./media/in/left.jpg" height="200px" alt="left" />
-    <img src="./media/in/right.jpg" height="200px" alt="right" />
-    <br>
-    <img src="./media/in/left2.jpg" height="200px" alt="left2" />
-    <img src="./media/in/right2.jpg" height="200px" alt="right2" />
-    <br>
-    <img src="./media/in/top.jpg" height="200px" alt="top" />
-    <img src="./media/in/bottom.jpg" height="200px" alt="bottom" />
+    <h4>Photos with projective (aka perspective) transforms, fixed center of projection: </h4>
+    <img src="./media/in/rose_left.jpg" height="250px" alt="rose_left" />
+    <img src="./media/in/rose_right.jpg" height="250px" alt="rose_right" />
+    <img src="./media/in/bay_left.jpg" height="250px" alt="bay_left" />
+    <img src="./media/in/bay_right.jpg" height="250px" alt="bay_right" />
+    <h4>Berkeley rose garden and picture of the bay en route! These were taken by rotating the camera left to right. </h4>
+    <img src="./media/in/picnic_top.jpg" height="200px" alt="picnic_top" />
+    <img src="./media/in/picnic_bottom.jpg" height="200px" alt="picnic_bottom" />
+    <img src="./media/in/books_top.jpg" height="200px" alt="books_top" />
+    <img src="./media/in/books_bottom.jpg" height="200px" alt="books_bottom" />
+    <h4>Picnic tables at Codornices and collection of high school books. These were taken by rotating the camera top to bottom. </h4>
 
     <h3>A.2: Recover Homographies</h3>
-    <h4>Correspondences (red points)</h4>
-    <img src="./media/in/ducks_points.jpg" height="200px" alt="ducks_points" />
-    <img src="./media/out/ducks_nn_fixed_points.jpg" height="200px" alt="ducks_nn_fixed_points" />
-    <h4>System of equations</h4>
+    <h4>Correspondences (red points): </h4>
+    <img src="./media/out/A/ducks_with_pts.jpg" height="400px" alt="ducks_with_pts" />
+    <img src="./media/out/A/ducks_warped_with_pts.jpg" height="400px" alt="ducks_warped_with_pts" />
+    <h4>System of equations: </h4>
     <pre><code>
     A =
-    1.14e+02  2.60e+02  1.00e+00  0.00e+00  0.00e+00  0.00e+00  0.00e+00  0.00e+00
-    5.80e+01  4.79e+02  1.00e+00  0.00e+00  0.00e+00  0.00e+00  0.00e+00  0.00e+00
-    3.07e+02  2.51e+02  1.00e+00  0.00e+00  0.00e+00  0.00e+00 -6.14e+04 -5.02e+04
-    3.04e+02  4.79e+02  1.00e+00  0.00e+00  0.00e+00  0.00e+00 -6.08e+04 -9.58e+04
-    0.00e+00  0.00e+00  0.00e+00  1.14e+02  2.60e+02  1.00e+00  0.00e+00  0.00e+00
-    0.00e+00  0.00e+00  0.00e+00  5.80e+01  4.79e+02  1.00e+00 -1.16e+04 -9.58e+04
-    0.00e+00  0.00e+00  0.00e+00  3.07e+02  2.51e+02  1.00e+00  0.00e+00  0.00e+00
-    0.00e+00  0.00e+00  0.00e+00  3.04e+02  4.79e+02  1.00e+00 -6.08e+04 -9.58e+04
+    1.910e+02  4.330e+02  1.000e+00  0.000e+00  0.000e+00  0.000e+00  0.000e+00  0.000e+00
+    9.600e+01  7.990e+02  1.000e+00  0.000e+00  0.000e+00  0.000e+00  0.000e+00  0.000e+00
+    5.110e+02  4.180e+02  1.000e+00  0.000e+00  0.000e+00  0.000e+00 -2.044e+05 -1.672e+05
+    5.070e+02  7.990e+02  1.000e+00  0.000e+00  0.000e+00  0.000e+00 -2.028e+05 -3.196e+05
+    0.000e+00  0.000e+00  0.000e+00  1.910e+02  4.330e+02  1.000e+00  0.000e+00  0.000e+00
+    0.000e+00  0.000e+00  0.000e+00  9.600e+01  7.990e+02  1.000e+00 -3.840e+04 -3.196e+05
+    0.000e+00  0.000e+00  0.000e+00  5.110e+02  4.180e+02  1.000e+00  0.000e+00  0.000e+00
+    0.000e+00  0.000e+00  0.000e+00  5.070e+02  7.990e+02  1.000e+00 -2.028e+05 -3.196e+05
  
     b =
-    0   0   200   200   0   200   0   200
+    0   0   400   400   0   400   0   400
     </code></pre>
 
-    <h4>Recovered homography matrix</h4>
+    <h4>Recovered homography matrix: </h4>
     <pre><code>
     H =
-    1.75136589e+00  4.47837853e-01 -3.16093553e+02
-    8.81716369e-02  1.89079177e+00 -5.01657427e+02
-    4.40858185e-04  2.12976859e-03  1.00000000e+00
+    2.15141896e+00  5.58428419e-01 -6.52720527e+02
+    1.08842097e-01  2.32196473e+00 -1.02619957e+03
+    2.72105241e-04  1.34246011e-03  1.00000000e+00
     </code></pre>
 
     <h3>A.3: Warp the Images</h3>
-    <h4>Rectified images (need larger images to compare nearest neighbor and bilinear)</h4>
-    <img src="./media/in/ducks.jpg" height="200px" alt="ducks" />
-    <img src="./media/out/ducks_nn_fixed.jpg" height="200px" alt="ducks_nn_fixed" />
+    <h4>In order of: original, nearest neighbors, bilinear</h4>
+    <img src="./media/in/ducks.jpg" height="300px" alt="ducks" />
+    <img src="./media/out/A/ducks_warped_nn.jpg" height="300px" alt="ducks_warped_nn" />
+    <img src="./media/out/A/ducks_warped_bi.jpg" height="300px" alt="ducks_warped_bi" />
     <br>
-    <img src="./media/in/geometry.jpg" height="200px" alt="geometry" />
-    <img src="./media/out/geometry_nn_fixed.jpg" height="200px" alt="geometry_nn_fixed" />
+    <img src="./media/in/geometry.jpg" height="300px" alt="geometry" />
+    <img src="./media/out/A/geometry_warped_nn.jpg" height="300px" alt="geometry_warped_nn" />
+    <img src="./media/out/A/geometry_warped_bi.jpg" height="300px" alt="geometry_warped_bi" />
     <br>
-    <img src="./media/in/gloton.jpg" height="200px" alt="gloton" />
-    <img src="./media/out/gloton_nn_fixed.jpg" height="200px" alt="gloton_nn_fixed" />
+    <img src="./media/in/gloton.jpg" height="300px" alt="ducks" />
+    <img src="./media/out/A/gloton_warped_nn.jpg" height="300px" alt="gloton_warped_nn" />
+    <img src="./media/out/A/gloton_warped_bi.jpg" height="300px" alt="gloton_warped_bi" />
+    <h4>Bilinear is slightly better than nearest neighbors in producing a smooth, rectified image. For example, 
+        nearest neighbors causes you to lose a chunk of the character k in the example with ducks. In addition, 
+        in the photos of paintings, nearest neighbors distorts the text on the placards. For me, bilinear was slower, 
+        but the overall runtime difference was negligible. 
+    </h4>
     
     <h3>A.4: Blend the Images into a Mosaic</h3>
-    <h4>Images are properly aligned, but need to fix edge artifacts</h4>
-    <img src="./media/in/left.jpg" height="200px" alt="left" />
-    <img src="./media/in/right.jpg" height="200px" alt="right" />
-    <img src="./media/out/left_right.jpg" height="200px" alt="left_right" />
+    <img src="./media/in/rose_left.jpg" height="250px" alt="rose_left" />
+    <img src="./media/in/rose_right.jpg" height="250px" alt="rose_right" />
+    <img src="./media/out/A/rose_right_warped.jpg" height="250px" alt="rose_right_warped" />
+    <img src="./media/out/A/rose_mosaic_overlay.jpg" height="250px" alt="rose_mosaic_overlay" />
+    <img src="./media/out/A/rose_mosaic_average.jpg" height="250px" alt="rose_mosaic_average" />
+    <img src="./media/out/A/rose_mosaic_blend.jpg" height="250px" alt="rose_mosaic_blend" />
+    <h4>The 2 leftmost images are the original photos. Using manually chosen correspondences to compute the homography, 
+        we warp the second image into the third image. The last 3 images are various attempts to stitch the pieces of the 
+        mosaic together. The first attempt is a simple overlay, followed by a weighted average, which both produce sharp 
+        edges. The last one is the product of Laplacian blending (project 2)! 
+    </h4>
+    <h4>In order of: originals, warped image, blended mosaic</h4>
+    <img img src="./media/in/bay_right.jpg" height="200px" alt="bay_right" />
+    <img src="./media/in/bay_left.jpg" height="200px" alt="bay_left" />
+    <img src="./media/out/A/bay_left_warped.jpg" height="200px" alt="bay_left_warped" />
+    <img src="./media/out/A/bay_mosaic_blend.jpg" height="200px" alt="bay_mosaic_blend" />
     <br>
-    <img src="./media/in/left2.jpg" height="200px" alt="left2" />
-    <img src="./media/in/right2.jpg" height="200px" alt="right2" />
-    <img src="./media/out/left_right_2.jpg" height="200px" alt="left_right_2" />
+    <img img src="./media/in/picnic_top.jpg" height="200px" alt="picnic_top" />
+    <img src="./media/in/picnic_bottom.jpg" height="200px" alt="picnic_bottom" />
+    <img src="./media/out/A/picnic_bottom_warped.jpg" height="200px" alt="picnic_bottom_warped" />
+    <img src="./media/out/A/picnic_mosaic_blend.jpg" height="200px" alt="picnic_mosaic_blend" />
     <br>
-    <img src="./media/in/top.jpg" height="200px" alt="top" />
-    <img src="./media/in/bottom.jpg" height="200px" alt="bottom" />
-    <img src="./media/out/top_bottom.jpg" height="200px" alt="top_bottom" />
+    <img img src="./media/in/books_bottom.jpg" height="200px" alt="books_bottom" />
+    <img src="./media/in/books_top.jpg" height="200px" alt="books_top" />
+    <img src="./media/out/A/books_top_warped.jpg" height="200px" alt="books_top_warped" />
+    <img src="./media/out/A/books_mosaic_blend.jpg" height="200px" alt="books_mosaic_blend" />
+    <br><br>
+
+    <h2>FEATURE MATCHING for AUTOSTITCHING</h2>
+    <h3>B.1: Harris Corner Detection</h3>
+    <img src="./media/out/B/rose_left_harris.jpg" height="400px" alt="rose_left_harris" />
+    <img src="./media/out/B/rose_left_harris_anms.jpg" height="400px" alt="rose_left_harris_anms" />
+    <h4>Naive Harris corner detection on the left (I chose min_distance=5 in peak_local_max to thin out the detected corners), 
+        with Adaptive Non-Maximal Suppression on the right. For ANMS, I followed the paper's threshold of 0.9, which worked well. 
+    </h4>
+
+    <h3>B.2: Feature Descriptor Extraction</h3>
+    <h4>8 normalized 8x8 extracted features from rose_left:</h4>
+    <img src="./media/out/B/rose_left_feature_descriptor_0.jpg" height="150px" alt="rose_left_feature_descriptor_0" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_1.jpg" height="150px" alt="rose_left_feature_descriptor_1" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_2.jpg" height="150px" alt="rose_left_feature_descriptor_2" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_3.jpg" height="150px" alt="rose_left_feature_descriptor_3" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_4.jpg" height="150px" alt="rose_left_feature_descriptor_4" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_5.jpg" height="150px" alt="rose_left_feature_descriptor_5" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_6.jpg" height="150px" alt="rose_left_feature_descriptor_6" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_left_feature_descriptor_7.jpg" height="150px" alt="rose_left_feature_descriptor_7" style="image-rendering: pixelated"/>
+    
+
+
+    <h3>B.3: Feature Matching</h3>
+    <h4>The 8 corresponding features from rose_right:</h4>
+    <img src="./media/out/B/rose_right_feature_descriptor_0.jpg" height="150px" alt="rose_right_feature_descriptor_0" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_1.jpg" height="150px" alt="rose_right_feature_descriptor_1" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_2.jpg" height="150px" alt="rose_right_feature_descriptor_2" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_3.jpg" height="150px" alt="rose_right_feature_descriptor_3" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_4.jpg" height="150px" alt="rose_right_feature_descriptor_4" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_5.jpg" height="150px" alt="rose_right_feature_descriptor_5" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_6.jpg" height="150px" alt="rose_right_feature_descriptor_6" style="image-rendering: pixelated"/>
+    <img src="./media/out/B/rose_right_feature_descriptor_7.jpg" height="150px" alt="rose_right_feature_descriptor_7" style="image-rendering: pixelated"/>
+    <h4>The feature descriptors don't match perfectly, but it's neat to see their similarity. Based on the figure in the paper, I used a cutoff of 0.6 for the 
+        ratio of first nearest neighbor error to second nearest neighbor error.
+    </h4>
+    <img src="./media/out/B/rose_left_rose_right_matches.jpg" height="400px" alt="rose_left_rose_right_matches"/>
+    <h4>Here's a sample of 50 matched features. We can see some obviously incorrect matches among the correct (flat line) ones, 
+        but RANSAC is able to get around this, see below!
+    </h4>
+
+    <h3>B.4: RANSAC for Robust Homography</h3>
+    <h4>In order of: manual mosaic, autostitched</h4>
+    <img img src="./media/out/A/rose_mosaic_blend.jpg" height="250px" alt="rose_mosaic_blend" />
+    <img src="./media/out/B/rose_mosaic_auto.jpg" height="250px" alt="rose_mosaic_auto" />
+    <img img src="./media/out/A/bay_mosaic_blend.jpg" height="250px" alt="bay_mosaic_blend" />
+    <img src="./media/out/B/bay_mosaic_auto.jpg" height="250px" alt="bay_mosaic_auto" />
+    <br>
+    <img img src="./media/out/A/picnic_mosaic_blend.jpg" height="250px" alt="picnic_mosaic_blend" />
+    <img src="./media/out/B/picnic_mosaic_auto.jpg" height="250px" alt="picnic_mosaic_auto" />
+    <img img src="./media/out/A/books_mosaic_blend.jpg" height="250px" alt="books_mosaic_blend" />
+    <img src="./media/out/B/books_mosaic_auto.jpg" height="250px" alt="books_mosaic_auto" />
+    <h4>Overall, 4-point RANSAC was able to match the images quite well! The only obvious visible difference is in the bay mosaic (top right), where the computed homography 
+        led to a small, slightly blurry wedge above the sun. Other than that, you can see the differences in the black shapes on the borders, although the blended images 
+        still look (more or less) seamless. 
+    </h4>
+
     
 </body>
 </html>
