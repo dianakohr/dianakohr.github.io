@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 4</title>
+    <style>
+        body {
+            font-family: Times, serif;
+            margin: 20px;
+            background-color: #fcf2d4;
+        }
+        h4, h5, h6 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project 4 - Neural Radiance Field!</h1>
+    <h2>Part 0: Calibrating Your Camera and Capturing a 3D Scan</h2>
+    <h3>Part 0.1: Calibrating Your Camera</h3>
+    <h4>A sample of my calibration tag pictures:</h4>
+    <img src="./media/in/aruco/0.jpg" height="100px" alt="aruco/0" />
+    <img src="./media/in/aruco/1.jpg" height="100px" alt="aruco/1" />
+    <img src="./media/in/aruco/2.jpg" height="100px" alt="aruco/2" />
+    <img src="./media/in/aruco/3.jpg" height="100px" alt="aruco/3" />
+    <img src="./media/in/aruco/4.jpg" height="100px" alt="aruco/4" />
+    <br>
+    <img src="./media/in/aruco/5.jpg" height="100px" alt="aruco/5" />
+    <img src="./media/in/aruco/6.jpg" height="100px" alt="aruco/6" />
+    <img src="./media/in/aruco/7.jpg" height="100px" alt="aruco/7" />
+    <img src="./media/in/aruco/8.jpg" height="100px" alt="aruco/8" />
+    <img src="./media/in/aruco/9.jpg" height="100px" alt="aruco/9" />
+    <br>
+    <img src="./media/in/aruco/10.jpg" height="100px" alt="aruco/10" />
+    <img src="./media/in/aruco/11.jpg" height="100px" alt="aruco/11" />
+    <img src="./media/in/aruco/12.jpg" height="100px" alt="aruco/12" />
+    <img src="./media/in/aruco/13.jpg" height="100px" alt="aruco/13" />
+    <img src="./media/in/aruco/14.jpg" height="100px" alt="aruco/14" />
+
+    <h3>Part 0.2: Capturing a 3D Object Scan</h3>
+    <h4>A sample of my panda pictures:</h4>
+    <img src="./media/in/panda/0.jpg" height="100px" alt="panda/0" />
+    <img src="./media/in/panda/1.jpg" height="100px" alt="panda/1" />
+    <img src="./media/in/panda/2.jpg" height="100px" alt="panda/2" />
+    <img src="./media/in/panda/3.jpg" height="100px" alt="panda/3" />
+    <img src="./media/in/panda/4.jpg" height="100px" alt="panda/4" />
+    <br>
+    <img src="./media/in/panda/5.jpg" height="100px" alt="panda/5" />
+    <img src="./media/in/panda/6.jpg" height="100px" alt="panda/6" />
+    <img src="./media/in/panda/7.jpg" height="100px" alt="panda/7" />
+    <img src="./media/in/panda/8.jpg" height="100px" alt="panda/8" />
+    <img src="./media/in/panda/9.jpg" height="100px" alt="panda/9" />
+    <br>
+    <img src="./media/in/panda/10.jpg" height="100px" alt="panda/10" />
+    <img src="./media/in/panda/11.jpg" height="100px" alt="panda/11" />
+    <img src="./media/in/panda/12.jpg" height="100px" alt="panda/12" />
+    <img src="./media/in/panda/13.jpg" height="100px" alt="panda/13" />
+    <img src="./media/in/panda/14.jpg" height="100px" alt="panda/14" />
+
+    <h3>Part 0.3: Estimating Camera Pose</h3>
+    <h4>Camera cloud in Viser:</h4>
+    <img src="./media/out/viser/plain_0.png" height="150px" alt="viser/plain_0" />
+    <img src="./media/out/viser/plain_1.png" height="150px" alt="viser/plain_1" />
+    <img src="./media/out/viser/plain_2.png" height="150px" alt="viser/plain_2" />
+    <img src="./media/out/viser/plain_3.png" height="150px" alt="viser/plain_3" />
+
+    <h3>Part 0.4: Undistorting images and creating a dataset</h3>
+    <h4>Original image with undistorted image underneath:</h4>
+    <img src="./media/in/panda/32.jpg" height="125px" alt="panda/32" />
+    <img src="./media/in/panda/10.jpg" height="125px" alt="panda/10" />
+    <img src="./media/in/panda/7.jpg" height="125px" alt="panda/7" />
+    <br>
+    <img src="./media/out/panda/undistorted_0.jpg" height="125px" alt="panda/undistorted_0" />
+    <img src="./media/out/panda/undistorted_1.jpg" height="125px" alt="panda/undistorted_1" />
+    <img src="./media/out/panda/undistorted_2.jpg" height="125px" alt="panda/undistorted_2" />
+
+    <h2>Part 1: Fit a Neural Field to a 2D Image</h2>
+    <h4>Model architecture: </h4>
+    <img src="./media/2d_network.png" height="100px" alt="2d_network" />
+    <h4>I used the framework provided in the project spec, and I tried 2 different layer widths: 
+        256, 400. For positional encoding, I tried L values of 10 and 20. My optimizer was Adam with a learning rate of 1e-2, and 1,000 iterations with 
+        a batch size of 10,000 was sufficient. 
+    </h4>
+
+    <h4>Input images:</h4>
+    <img src="./media/in/flytrap.jpg" height="150px" alt="panda/flytrap" />
+
+    <h4>Fox training progression for L=10 and width=256:</h4>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/in/fox.jpg" height="100px" alt="panda/fox" />
+        <h6>original image</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/fox_10_256_0.jpg" height="100px" alt="fox_10_256_0" />
+        <h6>iter 0</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/fox_10_256_10.jpg" height="100px" alt="fox_10_256_10" />
+        <h6>iter 10</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/fox_10_256_100.jpg" height="100px" alt="fox_10_256_100" />
+        <h6>iter 100</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/fox_10_256_500.jpg" height="100px" alt="fox_10_256_500" />
+        <h6>iter 500</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/fox_10_256_final.jpg" height="100px" alt="fox_10_256_final" />
+        <h6>final result</h6>
+    </div>
+    
+    <h4 style="clear: left">Training loss and PSNR:</h4>
+    <img src="./media/out/part1/fox_loss.png" height="200px" alt="fox_loss" />
+    <img src="./media/out/part1/fox_psnr.png" height="200px" alt="fox_psnr" />
+
+    <h4>Flytrap training progression for L=10 and width=256:</h4>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/in/flytrap.jpg" height="200px" alt="panda/flytrap" />
+        <h6>original image</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/flytrap_10_256_0.jpg" height="200px" alt="flytrap_10_256_0" />
+        <h6>iter 0</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/flytrap_10_256_10.jpg" height="200px" alt="flytrap_10_256_10" />
+        <h6>iter 10</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/flytrap_10_256_100.jpg" height="200px" alt="flytrap_10_256_100" />
+        <h6>iter 100</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/flytrap_10_256_500.jpg" height="200px" alt="flytrap_10_256_500" />
+        <h6>iter 500</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/part1/flytrap_10_256_final.jpg" height="200px" alt="flytrap_10_256_final" />
+        <h6>final result</h6>
+    </div>
+    
+    <h4 style="clear: left">Training loss and PSNR:</h4>
+    <img src="./media/out/part1/flytrap_loss.png" height="200px" alt="flytrap_loss" />
+    <img src="./media/out/part1/flytrap_psnr.png" height="200px" alt="flytrap_psnr" />
+
+    <h2>Part 2: Fit a Neural Radiance Field from Multi-view Images</h2>
+    <h3>Part 2.1-2.3: Create Rays from Cameras, Sampling, Putting the Dataloading All Together</h3>
+    <h4>100 sampled rays and points: </h4>
+    <img src="./media/out/viser/sampleall_0.png" height="200px" alt="sampleall_0" />
+    <img src="./media/out/viser/sampleall_1.png" height="200px" alt="sampleall_1" />
+
+    <h4>100 samples from the same image:</h4>
+    <img src="./media/out/viser/sampleone_0.png" height="200px" alt="sampleone_0" />
+    <img src="./media/out/viser/sampleone_1.png" height="200px" alt="sampleone_1" />
+
+    <h4>100 samples from the top left of an image:</h4>
+    <img src="./media/out/viser/sampletopleft_0.png" height="200px" alt="sampletopleft_0" />
+    <img src="./media/out/viser/sampletopleft_1.png" height="200px" alt="sampletopleft_1" />
+
+    <h6>My implementation closely followed the project spec, making use of Pytorch for faster operations. My NeRF neural net
+        structure followed the provided diagram, except I used softplus for density instead of ReLU. In terms of training my NeRFs, 
+        I used an Adam optimizer with a learning rate of 5e-4. After experimentation, I set my near and far values to 0.25 and 0.5, respectively. 
+    </h6>
+
+    <h3>Part 2.4: Neural Radiance Field</h3>
+    <h4>Training process for view 0:</h4>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_0.jpg" height="150px" alt="lego_0" />
+        <h6>iter 0</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_10.jpg" height="150px" alt="lego_10" />
+        <h6>iter 10</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_100.jpg" height="150px" alt="lego_100" />
+        <h6>iter 100</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_500.jpg" height="150px" alt="lego_500" />
+        <h6>iter 500</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_1000.jpg" height="150px" alt="lego_1000" />
+        <h6>iter 1000</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/lego/lego_final.jpg" height="150px" alt="lego_final" />
+        <h6>final result</h6>
+    </div>
+
+    <div style="clear: left; float: left; padding-right: 10px; text-align: center;">
+        <h4>PSNR curve for validation:</h4>
+        <img src="./media/out/lego/lego_psnr_val.png" height="200px" alt="lego_psnr_val" />
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <h4>And the most exciting part! Spherical rendering gif:</h4>
+        <img src="./media/out/lego/lego.gif" height="200px" alt="lego" />
+    </div>
+    
+    <h3 style="clear: left"><br>Part 2.6: Training with your own data</h3>
+    <h4>Training process for view 0:</h4>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_0.jpg" height="150px" alt="panda_0" />
+        <h6>iter 0</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_10.jpg" height="150px" alt="panda_10" />
+        <h6>iter 10</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_100.jpg" height="150px" alt="panda_100" />
+        <h6>iter 100</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_500.jpg" height="150px" alt="panda_500" />
+        <h6>iter 500</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_1000.jpg" height="150px" alt="panda_1000" />
+        <h6>iter 1000</h6>
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <img src="./media/out/panda/panda_final.jpg" height="150px" alt="panda_final" />
+        <h6>final result</h6>
+    </div>
+
+    <div style="clear: left; float: left; padding-right: 10px; text-align: center;">
+        <h4>Training loss:</h4>
+        <img src="./media/out/lego/lego_loss.png" height="200px" alt="lego_loss" />
+    </div>
+    <div style="float: left; padding-right: 10px; text-align: center;">
+        <h4>Even more exciting! Spherical rendering gif:</h4>
+        <img src="./media/panda.gif" height="200px" alt="panda" />
+    </div>
+
+    <h4 style="clear: left">I've realized that choosing a black and yellow object that almost perfectly 
+        matches the background color may not have been a great idea. But the object is clearer in some 
+        frames, and the movement is definitely circular (cope)!
+    </h4>
+    
+</body>
+</html>
