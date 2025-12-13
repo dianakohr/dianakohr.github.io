@@ -1,30 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CS 180 portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diana Kohr | CS 180 Portfolio</title>
+    <link href="fonts.googleapis.com" rel="stylesheet">
     <style>
-        body {
-            font-family: Times, serif;
-            margin: 20px;
-            background-color: #d9fcf9;
+        /* General Styles */
+        :root {
+            --primary-color: #007BFF; /* A clean blue for links */
+            --background-color: #f0f4f8; /* Light gray-blue background */
+            --card-bg: #ffffff; /* White cards */
+            --text-color: #333333; /* Dark gray text */
         }
-        h4, h5, h6 {
-            font-weight: normal;
+
+        body {
+            font-family: 'Lora', serif; /* Elegant font for main text */
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Roboto Mono', monospace; /* Monospaced font for code feel */
+            font-size: 2.5rem;
+            color: #000;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+
+        .status-badge {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        /* Project Links Styling */
+        .projects-list {
+            margin-top: 30px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .project-item {
+            margin-bottom: 15px;
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            display: block; /* Make the whole area clickable */
+        }
+
+        a:hover, a:focus {
+            text-decoration: underline;
+            color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>CS 180 portfolio</h1>
-    <h4>Name: Diana Kohr</h4>
-    <h4>Status: decomposing </h4>
-    <a href="./0/index.html">Project 0</a>
-    <br><br>
-    <a href="./1/index.html">Project 1</a>
-    <br><br>
-    <a href="./2/index.html">Project 2</a>
-    <br><br>
-    <a href="./3/index.html">Project 3</a>
-    <br><br>
-    <a href="./4/index.html">Project 4</a>
+    <div class="container">
+        <header>
+            <h1>CS 180 Portfolio</h1>
+            <p class="subtitle">Name: Diana Kohr</p>
+            <p class="subtitle">Status: So close to freedom!!!</p>
+        </header>
+
+        <main>
+            <ul class="projects-list">
+                <li class="project-item">
+                    <a href="./0/index.html">Project 0: Becoming Friends with Your Camera</a>
+                </li>
+                <li class="project-item">
+                    <a href="./1/index.html">Project 1: Colorizing the Prokudin-Gorskii Photo Collection</a>
+                </li>
+                <li class="project-item">
+                    <a href="./2/index.html">Project 2: Fun with Filters and Frequencies</a>
+                </li>
+                <li class="project-item">
+                    <a href="./3/index.html">Project 3: (Auto)stitching and Photo Mosaics</a>
+                </li>
+                <li class="project-item">
+                    <a href="./4/index.html">Project 4: Neural Radiance Field</a>
+                </li>
+                <li class="project-item">
+                    <a href="./5/index.html">Project 5: Fun with Diffusion Models</a>
+                </li>
+            </ul>
+        </main>
+    </div>
 </body>
 </html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 5: Hole Filling | Diffusion Models</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <style>
+        /* Inherit Variables from Main Index */
+        :root {
+            --primary-color: #007BFF;
+            --background-color: #f0f4f8; 
+            --card-bg: #ffffff; 
+            --text-color: #333333;
+            --black-color: #000000;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px; /* Slightly wider for the extensive content */
+            margin: 0 auto;
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.5rem;
+            color: var(--black-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--black-color);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            font-weight: 400; 
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        p, ul, ol, pre {
+            font-family: 'Lora', serif;
+            margin-bottom: 15px;
+        }
+        
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        /* Styling for individual project part containers (the white boxes) */
+        .project-part {
+            background-color: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: 8px; /* Rounded corners for the boxes */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .deliverable-box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        /* Image Styling */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .grid-gallery-2x3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+            gap: 15px;
+            /* Centers each image-item within its respective grid cell */
+            justify-items: center; 
+            align-items: start;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .image-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 250px;
+        }
+        
+        .image-item img {
+            max-width: 100%;
+            height: auto; 
+            display: block; 
+            margin: 0;
+            border: none; 
+            border-radius: 0; /* Sharp corners for the image */
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back</a>
+
+        <h1>Project 5: Fun with Diffusion Models</h1>
+
+        <h2>Part A: The Power of Diffusion Models!</h2>
+
+        <h3>Part 0: Setup</h3>
+        
+        <div class="project-part">
+            <div class="deliverable-box">
+                <p><strong>Seed: 225</strong></p>
+
+                <h4>Prompt 1: "a photo of a frog"</h4>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_small_10.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_small_20.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_small_40.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_big_10.png" alt="TODO">
+                        <h4>Steps: 10</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_big_20.png" alt="TODO">
+                        <h4>Steps: 20</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/frog_big_40.png" alt="TODO">
+                        <h4>Steps: 40</h4>
+                    </div>
+                </div>
+                <p><strong>Reflection:</strong> The generated frogs look pretty good regardless of number of steps. </p>
+                
+                <h4>Prompt 2: "a chinese bamboo painting"</h4>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_small_10.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_small_20.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_small_40.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_big_10.png" alt="TODO">
+                        <h4>Steps: 10</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_big_20.png" alt="TODO">
+                        <h4>Steps: 20</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/bamboo_big_40.png" alt="TODO">
+                        <h4>Steps: 40</h4>
+                    </div>
+                </div>
+                <p><strong>Reflection:</strong> The generated bamboo paintings also look good. 
+                I was expected calligraphy-style images, but I guess my prompt wasn't specific enough.
+                It even tried to imitate Chinese characters.</p>
+                
+                <h4>Prompt 3: "a sketch of a cafe"</h4>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_small_10.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_small_20.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_small_40.png" alt="TODO">
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_big_10.png" alt="TODO">
+                        <h4>Steps: 10</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_big_20.png" alt="TODO">
+                        <h4>Steps: 20</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/0/cafe_big_40.png" alt="TODO">
+                        <h4>Steps: 40</h4>
+                    </div>
+                </div>
+                <p><strong>Reflection:</strong> I wasn't very specific about what kind of sketch, but these cafe
+                sketches look solid. There is significantly more detail in the larger images, and there seems to be more
+                details (ice cream, for example) with more steps. </p>
+            </div>
+        </div>
+        
+        <h2>Part 1: Sampling Loops</h2>
+
+        <div class="project-part">
+            <h3>1.1 Implementing the Forward Process</h3>
+            <div class="deliverable-box">
+                <p>Campanile at noise level [250, 500, 750].</p>
+                <div class="image-gallery">
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_original.png" alt="Original Berkeley Campanile Image">
+                        <h4>Original Campanile</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_250.png" alt="Noisy Campanile at t=250">
+                        <h4>Noisy Campanile at t=250</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_500.png" alt="Noisy Campanile at t=500">
+                        <h4>Noisy Campanile at t=500</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_750.png" alt="Noisy Campanile at t=750">
+                        <h4>Noisy Campanile at t=750</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.2 Classical Denoising (Gaussian Blur)</h3>
+            <div class="deliverable-box">
+                <p>Best Gaussian-denoised version side by side with the noisy image for t=[250, 500, 750].</p>
+                <div class="image-gallery">
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_250.png" alt="Noisy Campanile at t=250">
+                        <h4>Noisy at t=250</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_classical_250.png" alt="Gaussian Blurred Denoising at t=250">
+                        <h4>Gaussian Blur Denoising at t=250</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_500.png" alt="Noisy Campanile at t=500">
+                        <h4>Noisy at t=500</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_classical_500.png" alt="Gaussian Blurred Denoising at t=500">
+                        <h4>Gaussian Blur Denoising at t=500</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_750.png" alt="Noisy Campanile at t=750">
+                        <h4>Noisy at t=750</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_classical_750.png" alt="Gaussian Blurred Denoising at t=750">
+                        <h4>Gaussian Blur Denoising at t=750</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.3 One-Step Denoising (UNet)</h3>
+            <div class="deliverable-box">
+                <p>Original, noisy, and one-step denoised images for t=[250, 500, 750].</p>
+                <div class="image-gallery">
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_250.png" alt="Noisy Campanile at t=250">
+                        <h4>Noisy Campanile at t=250</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_500.png" alt="Noisy Campanile at t=500">
+                        <h4>Noisy Campanile at t=500</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_noise_750.png" alt="Noisy Campanile at t=750">
+                        <h4>Noisy Campanile at t=750</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_one_250.png" alt="One-Step Denoised Campanile at t=250">
+                        <h4>One-Step Denoised at t=250</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_one_500.png" alt="One-Step Denoised Campanile at t=500">
+                        <h4>One-Step Denoised at t=500</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_one_750.png" alt="One-Step Denoised Campanile at t=750">
+                        <h4>One-Step Denoised at t=750</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.4 Iterative Denoising</h3>
+            <div class="deliverable-box">
+                
+                <p><strong>Strided Timesteps:</strong></p>
+                
+                <h4>Gradual Denoising (i_start = 10)</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/campanile_iter_1.png" alt="Noisy Campanile at 5th loop"><h4>Step 5 (t=90)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/campanile_iter_2.png" alt="Noisy Campanile at 10th loop"><h4>Step 10 (t=240)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/campanile_iter_3.png" alt="Noisy Campanile at 15th loop"><h4>Step 15 (t=390)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/campanile_iter_4.png" alt="Noisy Campanile at 20th loop"><h4>Step 20 (t=540)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/campanile_iter_5.png" alt="Noisy Campanile at 25th loop"><h4>Step 25 (t=690)</h4></div>
+                </div>
+                
+                <h4>Final Comparison</h4>
+                <div class="image-gallery">
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_original.png" alt="Original Campanile">
+                        <h4>Original</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_iter_final.png" alt="Final Iteratively Denoised Campanile">
+                        <h4>Iteratively Denoised</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_one_final.png" alt="Final One-Step Denoised Campanile">
+                        <h4>One-Step Denoised</h4>
+                    </div>
+                    <div class="image-item">
+                        <img src="./media/A/1/campanile_classical_final.png" alt="Final Gaussian Blurred Campanile">
+                        <h4>Gaussian Blurred</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.5 Diffusion Model Sampling (Unconditional)</h3>
+            <div class="deliverable-box">
+                <p>5 sampled images of "a high quality photo".</p>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/gen_1.png" alt="Unconditional Sample 1"><h4>Sample 1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/gen_2.png" alt="Unconditional Sample 2"><h4>Sample 2</h4></div>
+                    <div class="image-item"><img src="./media/A/1/gen_3.png" alt="Unconditional Sample 3"><h4>Sample 3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/gen_4.png" alt="Unconditional Sample 4"><h4>Sample 4</h4></div>
+                    <div class="image-item"><img src="./media/A/1/gen_5.png" alt="Unconditional Sample 5"><h4>Sample 5</h4></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="project-part">
+            <h3>1.6 Classifier-Free Guidance (CFG)</h3>
+            <div class="deliverable-box">
+                <p>5 images of "a high quality photo" with CFG scale gamma=3.</p>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/cfg_1.png" alt="CFG Sample 1"><h4>CFG Sample 1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/cfg_2.png" alt="CFG Sample 2"><h4>CFG Sample 2</h4></div>
+                    <div class="image-item"><img src="./media/A/1/cfg_3.png" alt="CFG Sample 3"><h4>CFG Sample 3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/cfg_4.png" alt="CFG Sample 4"><h4>CFG Sample 4</h4></div>
+                    <div class="image-item"><img src="./media/A/1/cfg_5.png" alt="CFG Sample 5"><h4>CFG Sample 5</h4></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.7 Image-to-image Translation (SDEdit)</h3>
+            
+            <div class="deliverable-box">
+                <p>Edits at noise levels [1, 3, 5, 7, 10, 20].</p>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/camp.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/stairs.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/stairs_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/flower.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+            </div>
+
+            <h3>1.7.1 Editing Hand-Drawn and Web Images</h3>
+            <div class="deliverable-box">
+                <p>Web and hand-drawn images edited at noise levels [1, 3, 5, 7, 10, 20].</p>
+                
+                <h5>Web images</h5>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/avo.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/avo_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/bfly.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/bfly_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/lake.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/lake_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <h5>Hand-drawn sketches</h5>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/flow.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flow_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/rain.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/rain_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/umb.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/umb_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+            </div>
+
+            <h3>1.7.2 Inpainting (RePaint)</h3>
+            <div class="deliverable-box">
+
+                <h4>Campanile Inpainting</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/camp.png" alt="Original Campanile Image"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_mask.png" alt="Image with Hole to Fill"><h4>Hole to Fill</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_inpaint.png" alt="Inpainted Campanile Result"><h4>Inpainted Result</h4></div>
+                </div>
+
+                <h4>Cake on Table Inpainting</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/cake.png" alt="Original Campanile Image"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_mask.png" alt="Image with Hole to Fill"><h4>Hole to Fill</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_inpaint.png" alt="Inpainted Campanile Result"><h4>Inpainted Result</h4></div>
+                </div>
+                
+                <h4>Orange Flower Inpainting</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/flower.png" alt="Original Campanile Image"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_mask.png" alt="Image with Hole to Fill"><h4>Hole to Fill</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_inpaint.png" alt="Inpainted Campanile Result"><h4>Inpainted Result</h4></div>
+                </div>
+            </div>
+            
+            <h3>1.7.3 Text-Conditional Image-to-image Translation</h3>
+            <div class="deliverable-box">
+
+                <h4>Prompt: "a snake"</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/camp.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/camp_snake_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/cake.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/cake_snake_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+                
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/7/flower.png" alt="Original Campanile"><h4>Original</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_1.png" alt="Campanile SDEdit at i_start=1"><h4>i_start=1</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_3.png" alt="Campanile SDEdit at i_start=3"><h4>i_start=3</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_5.png" alt="Campanile SDEdit at i_start=5"><h4>i_start=5</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_7.png" alt="Campanile SDEdit at i_start=7"><h4>i_start=7</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_10.png" alt="Campanile SDEdit at i_start=10"><h4>i_start=10</h4></div>
+                    <div class="image-item"><img src="./media/A/1/7/flower_snake_20.png" alt="Campanile SDEdit at i_start=20"><h4>i_start=20</h4></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.8 Visual Anagrams</h3>
+            <div class="deliverable-box">
+                <p>Illusions that change appearance when flipped upside down.</p>
+
+                <h4>Illusion 1: An Oil Painting of an Old Man ↔ People around a Campfire</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/fire_man.png" alt="Visual Anagram 1 (Right-side up)"><h4>Right-side Up</h4></div>
+                    <div class="image-item"><img src="./media/A/1/man_fire.png" alt="Visual Anagram 1 (Flipped upside down)"><h4>Flipped</h4></div>
+                </div>
+                
+                <h4>Illusion 2: Pencil ↔ Rocket</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/pencil_rocket.png" alt="Visual Anagram 2 (Right-side up)"><h4>Right-side up</h4></div>
+                    <div class="image-item"><img src="./media/A/1/rocket_pencil.png" alt="Visual Anagram 2 (Flipped upside down)"><h4>Flipped</h4></div>
+                </div>
+                
+                <h4>Illusion 3: Hat ↔ Chicken</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/hat_chicken.png" alt="Visual Anagram 2 (Right-side up)"><h4>Right-side up</h4></div>
+                    <div class="image-item"><img src="./media/A/1/chicken_hat.png" alt="Visual Anagram 2 (Flipped upside down)"><h4>Flipped</h4></div>
+                </div>
+
+                <h4>Illusion 4: Cloud ↔ Sheep</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/cloud_sheep.png" alt="Visual Anagram 2 (Right-side up)"><h4>Right-side up</h4></div>
+                    <div class="image-item"><img src="./media/A/1/sheep_cloud.png" alt="Visual Anagram 2 (Flipped upside down)"><h4>Flipped</h4></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-part">
+            <h3>1.9 Hybrid Images (Factorized Diffusion)</h3>
+            <div class="deliverable-box">
+
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/A/1/water_skull.png" alt="Skull + waterfall"><h4>Up Close (Skull)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/mountain_snake.png" alt="Snake + mountain"><h4>From Afar (Waterfall)</h4></div>
+                    <div class="image-item"><img src="./media/A/1/cloudy_sheep.png" alt="Sheep + cloud"><h4>From Afar (Waterfall)</h4></div>
+                </div>
+            
+            </div>
+        </div>
+        
+    </div>
+
+    <h2>Part B: Flow Matching from Scratch!</h2>
+
+        <h3>Part 1: Training a Single-Step Denoising UNet</h3>
+        
+        <div class="project-part">
+            <h3>1.1 Implementing the UNet</h3>
+            <p>The denoiser is implemented as a UNet, using standard blocks like Conv, DownConv, and UpConv, following the structure.  </p>
+
+            <h3>1.2 Using the UNet to Train a Denoiser</h3>
+            <div class="deliverable-box">
+                <h4>Visualization of the Noising Process</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/add_noise.png" alt="Original MNIST Digit"><h4>Original -> noisy</h4></div>
+                </div>
+            </div>
+
+            <h3>1.2.1 Training</h3>
+            <p>Model trained on MNIST for 5 epochs using sigma=0.5 and D=128 (hidden dimension).</p>
+            <div class="deliverable-box">
+                <h4>Training Loss Curve Plot</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/train_1.png" alt="Training Loss Curve for Single-Step Denoising UNet"><h4>Training Loss (5 Epochs)</h4></div>
+                </div>
+                
+                <h4>Sample Denoised Results</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/denoise_1_og.png" alt="Original Noisy Input"><h4>Original Noisy Input</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_1_1.png" alt="Sample Denoised Results after 1st Epoch"><h4>After 1st Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_1_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 5th Epoch</h4></div>
+                </div>
+            </div>
+            
+            <h3>1.2.2 Out-of-Distribution Testing</h3>
+            <p>Testing the denoiser on unseen noise levels.</p>
+            <div class="deliverable-box">
+                <h4>Out-of-Distribution Noise Levels</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/ood.png" alt="Denoised image at max OOD sigma"></div>
+                </div>
+            </div>
+            
+            <h3>1.2.3 Denoising Pure Noise</h3>
+            <p>Training the model to denoise pure Gaussian noise for 5 epochs.</p>
+            <div class="deliverable-box">
+                <h4>Training Loss Curve (Denoising Pure Noise)</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/train_2.png" alt="Training Loss Curve for Pure Noise Denoising"><h4>Training Loss (5 Epochs)</h4></div>
+                </div>
+
+                <h4>Sample Results on Pure Noise</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/denoise_2_og.png" alt="Original Noisy Input"><h4>Original Noisy Input</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_2_1.png" alt="Sample Denoised Results after 1st Epoch"><h4>After 1st Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_2_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 5th Epoch</h4></div>
+                </div>
+
+                <h4>Analysis of Generated Outputs</h4>
+                <p><strong>Explanation:</strong> The results don't look like numerical digits; they're just a blurry mass in the center. It's essentially averaging 
+                over all the digits to minimize loss without going for a specific digit.</p>
+            </div>
+        </div>
+
+        <h2>Part 2: Training a Flow Matching Model</h2>
+        
+        <div class="project-part">
+            <h3>2.1 Adding Time Conditioning to UNet</h3>
+            <p>The UNet is modified to accept a scalar time condition.  </p>
+
+            <h3>2.2 Training the UNet (Time-Conditioned Only)</h3>
+            
+            <div class="deliverable-box">
+                <h4>Training Loss Curve (Time-Conditioned UNet)</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/train_3.png" alt="Training Loss Curve for Time-Conditioned UNet"><h4>Training Loss (Total Epochs)</h4></div>
+                </div>
+            </div>
+
+            <h3>2.3 Sampling from the UNet (Time-Conditioned Only)</h3>
+        
+            <div class="deliverable-box">
+                <h4>Sampling Results (Time-Conditioned Only)</h4>
+                <p>Generated samples after training for 1, 5, and 10 epochs.</p>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item"><img src="./media/B/denoise_3_1.png" alt="Sample Denoised Results after 1st Epoch"><h4>After 1st Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_3_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 5th Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_3_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 10th Epoch</h4></div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Part 2.4 - 2.6: Class-Conditioning and Sampling</h2>
+        
+        <div class="project-part">
+            <h3>2.4 Adding Class-Conditioning to UNet</h3>
+            <p>The UNet is further conditioned on a one-hot vector representing the digit class.</p>
+            <p>Dropout is implemented with probability p=0.1 to set c=0 for unconditional generation.</p>
+
+            <h3>2.5 Training the UNet (Class-Conditioned)</h3>
+            <div class="deliverable-box">
+                <h4>Training Loss Curve (Class-Conditioned UNet)</h4>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/train_4.png" alt="Training Loss Curve for Class-Conditioned UNet"><h4>Training Loss (Total Epochs)</h4></div>
+                </div>
+            </div>
+
+            <h3>2.6 Sampling from the UNet (Class-Conditioned)</h3>
+            
+            <div class="deliverable-box">
+                <h4>Sampling Results (Class-Conditioned)</h4>
+                <p>Generated samples after training for 1, 5, and 10 epochs. </p>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item"><img src="./media/B/denoise_4_1.png" alt="Sample Denoised Results after 1st Epoch"><h4>After 1st Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_4_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 5th Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_4_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 10th Epoch</h4></div>
+                </div>
+
+                <h4>Removing the Learning Rate Scheduler</h4>
+                <p><strong>Visualization without Scheduler:</strong></p>
+                <div class="image-gallery">
+                    <div class="image-item"><img src="./media/B/train_5.png" alt="Training Loss Curve for Class-Conditioned UNet"><h4>Training Loss (Total Epochs)</h4></div>
+                </div>
+                <div class="grid-gallery-2x3">
+                    <div class="image-item"><img src="./media/B/denoise_5_1.png" alt="Sample Denoised Results after 1st Epoch"><h4>After 1st Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_5_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 5th Epoch</h4></div>
+                    <div class="image-item"><img src="./media/B/denoise_5_5.png" alt="Sample Denoised Results after 5th Epoch"><h4>After 10th Epoch</h4></div>
+                </div>
+                <p><strong>Compensation/Strategy:</strong> The training worked fine without the learning rate scheduler. As you can see, the results are quite clear with the same number 
+                of epochs. The training loss plot seems to flucuate a little more without learning rate decay (more spiky). Maybe a smaller learning rate would fix that issue.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

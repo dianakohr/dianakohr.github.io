@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Project 0</title>
@@ -23,5 +23,133 @@
     <h4>far / high zoom → close / low zoom</h4>
     <h3>Part 3: The Dolly Zoom</h3>
     <img src="./media/part3.gif" alt="dolly zoom of squirrel" style="height:150px;">
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 0: Becoming Friends with Your Camera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <style>
+        /* Inherit Variables from Main Index */
+        :root {
+            --primary-color: #007BFF;
+            --background-color: #f0f4f8; /* Light gray-blue background */
+            --card-bg: #ffffff; 
+            --text-color: #333333;
+            --black-color: #000000;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--black-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        h4 {
+            font-weight: 400; 
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 0;
+            /* NEW: Center the caption text */
+            text-align: center;
+        }
+
+        /* Styling for individual project part containers (the white boxes) */
+        .project-part {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners for the boxes */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Image Styling */
+        img {
+            max-width: 80%; /* Images are 80% of the parent container */
+            height: auto; 
+            display: block; 
+            margin: 15px auto; /* Centers the image */
+            border: none; 
+            border-radius: 0; /* Sharp corners for the image */
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back</a>
+
+        <h1>Project 0: Becoming Friends with Your Camera</h1>
+
+        <section class="project-part">
+            <h3>Part 1: Selfie: The Wrong Way vs. The Right Way</h3>
+            <img src="./media/part1.jpg" alt="Two comparison selfies, one taken up close with a wide lens and one from further away with a telephoto lens.">
+            <h4>close / low zoom → far / high zoom</h4>
+        </section>
+
+        <section class="project-part">
+            <h3>Part 2: Architectural Perspective Compression</h3>
+            <img src="./media/part2.jpg" alt="Two street or architectural photos showing the effect of perspective compression.">
+            <h4>far / high zoom → close / low zoom</h4>
+        </section>
+
+        <section class="project-part">
+            <h3>Part 3: The Dolly Zoom</h3>
+            <img src="./media/part3.gif" alt="A sequence of images demonstrating the dolly zoom effect, where the background changes size relative to the foreground subject.">
+            <h4>dolly zoom of squirrel</h4>
+        </section>
+        
+    </div>
 </body>
 </html>
